@@ -31,16 +31,24 @@
         <!-- Add Task Form -->
         <div class="add-task-container">
             <form id="addTaskForm" class="add-task-form">
-                <input 
-                    type="text" 
-                    id="taskInput" 
-                    class="task-input" 
+                <input
+                    type="text"
+                    id="taskInput"
+                    class="task-input"
                     placeholder="Add a task"
                     autocomplete="off"
                     required
                 >
                 <button type="submit" class="btn-add" aria-label="Add task">+</button>
             </form>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button class="filter-btn" data-filter="important">Important</button>
         </div>
 
         <!-- Task List -->
