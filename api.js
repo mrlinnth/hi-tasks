@@ -120,7 +120,6 @@ class CockpitAPI {
 
   // Update task (convenience method)
   async updateTask(id, taskData) {
-    console.log("taskData: ", taskData);
     return this.saveTask(taskData, id);
   }
 

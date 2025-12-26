@@ -114,14 +114,21 @@
                         Cockpit API Token
                         <span class="settings-hint">Required for syncing tasks</span>
                     </label>
-                    <input 
-                        type="text" 
-                        id="apiTokenInput" 
+                    <input
+                        type="text"
+                        id="apiTokenInput"
                         class="settings-input"
                         placeholder="Enter your API token"
                     >
                     <button id="saveToken" class="btn-save">Save Token</button>
                     <div id="tokenStatus" class="token-status"></div>
+                </div>
+                <div class="settings-section">
+                    <label class="settings-label">
+                        Clear All Data
+                        <span class="settings-hint">Remove all tasks, cache, and settings</span>
+                    </label>
+                    <button id="clearAllData" class="btn-clear">Clear Cache & Data</button>
                 </div>
             </div>
         </div>

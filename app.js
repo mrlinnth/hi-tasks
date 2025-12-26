@@ -65,6 +65,7 @@ class TodoApp {
       apiTokenInput: document.getElementById("apiTokenInput"),
       saveToken: document.getElementById("saveToken"),
       tokenStatus: document.getElementById("tokenStatus"),
+      clearAllData: document.getElementById("clearAllData"),
       filterBtns: document.querySelectorAll(".filter-btn"),
     };
   }
@@ -114,6 +115,9 @@ class TodoApp {
     );
     this.elements.saveToken.addEventListener("click", () =>
       this.saveApiToken()
+    );
+    this.elements.clearAllData.addEventListener("click", () =>
+      this.clearAllData()
     );
 
     // Filter buttons
@@ -318,8 +322,6 @@ class TodoApp {
     if (!this.currentTask) return;
 
     this.currentTask.important = !this.currentTask.important;
-    console.log("this.currentTask.important: ", this.currentTask.important);
-    console.log("this.currentTask: ", this.currentTask);
 
     try {
       await db.saveTask(this.currentTask);
@@ -565,6 +567,43 @@ class TodoApp {
       setTimeout(() => {
         this.elements.tokenStatus.className = "token-status";
       }, 3000);
+    }
+  }
+
+  async clearAllData() {
+    const confirmed = confirm(
+      "This will delete all tasks, clear the cache, and reset all settings. This action cannot be undone. Continue?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      // 1. Clear IndexedDB
+      await db.clearTasks();
+      await db.clearQueue();
+
+      // 2. Clear localStorage
+      localStorage.clear();
+
+      // 3. Clear all caches
+      if ("caches" in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map((name) => caches.delete(name)));
+      }
+
+      // 4. Unregister service worker
+      if ("serviceWorker" in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(
+          registrations.map((registration) => registration.unregister())
+        );
+      }
+
+      // 5. Reload the page to show clean state
+      window.location.reload(true);
+    } catch (error) {
+      console.error("Error clearing data:", error);
+      alert("Failed to clear all data. Please try again or clear manually through browser settings.");
     }
   }
 }

@@ -8,12 +8,14 @@ A lightweight, offline-capable PWA todo application built with vanilla JavaScrip
 - ⭐ Mark tasks as important
 - 📅 Set due dates
 - 📝 Add descriptions
+- 🔍 Filter tasks (All, Active, Completed, Important)
 - 🔄 Offline sync with queue management
 - 📱 Fully responsive mobile design
 - 💾 IndexedDB for local storage
 - 🚀 PWA installable
 - 🎨 Minimal, modern UI with sage green theme
 - ⚙️ Settings panel for API token management
+- 🗑️ Clear cache & data to reset the app
 
 ## Architecture
 
@@ -175,6 +177,18 @@ const API_URL = 'https://cms.hiyan.xyz/:hi-tasks/api';
 - Check if service worker registered (Console > Application > Service Workers)
 - Clear cache and reload
 - Verify IndexedDB is enabled in browser
+
+**Need to see new changes or reset the app?**
+- Click the **settings gear (⚙)** in the top-right corner
+- Scroll down to "Clear All Data" section
+- Click **"Clear Cache & Data"** button
+- This will:
+  - Delete all tasks from local storage
+  - Clear the sync queue
+  - Remove API token and all settings
+  - Delete service worker cache
+  - Unregister the service worker
+  - Reload the page with a fresh state
 
 ## Color Scheme
 
