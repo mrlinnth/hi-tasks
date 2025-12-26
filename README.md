@@ -1,4 +1,4 @@
-# Todo PWA - Minimal Todo App
+# Hi Tasks - Minimal Todo PWA
 
 A lightweight, offline-capable PWA todo application built with vanilla JavaScript, backed by Cockpit CMS.
 

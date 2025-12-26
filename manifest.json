@@ -1,7 +1,7 @@
 {
-  "name": "Todo PWA",
-  "short_name": "Todo",
-  "description": "Minimal PWA Todo App",
+  "name": "Hi Tasks",
+  "short_name": "HiTasks",
+  "description": "Minimal todo PWA",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
