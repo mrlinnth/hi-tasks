@@ -487,10 +487,13 @@ class TodoApp {
 
   updateImportantButton() {
     const btn = this.elements.toggleImportant;
+    const starSpan = btn.querySelector(".star");
     if (this.currentTask && this.currentTask.important) {
       btn.classList.add("active");
+      starSpan.textContent = "★";
     } else {
       btn.classList.remove("active");
+      starSpan.textContent = "☆";
     }
   }
 
