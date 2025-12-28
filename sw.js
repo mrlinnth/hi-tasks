@@ -1,4 +1,4 @@
-const version = "3.0"; // Update this with each deploy
+const version = "1.4.0"; // Update this with each deploy
 const CACHE_NAME = `todo-pwa-${version}`;
 const ASSETS_TO_CACHE = [
   "/",
