@@ -9,6 +9,7 @@ class TodoApp {
     this.currentTask = null;
     this.isOnline = navigator.onLine;
     this.currentFilter = "all";
+    this.searchText = "";
     this.elements = {};
   }
 
@@ -75,6 +76,12 @@ class TodoApp {
     this.elements.addTaskForm.addEventListener("submit", (e) => {
       e.preventDefault();
       this.handleAddTask();
+    });
+
+    // Task input for real-time filtering
+    this.elements.taskInput.addEventListener("input", (e) => {
+      this.searchText = e.target.value.trim();
+      this.renderTasks();
     });
 
     // Detail panel
@@ -196,17 +203,32 @@ class TodoApp {
   }
 
   getFilteredTasks() {
+    let filteredTasks;
+
     switch (this.currentFilter) {
       case "active":
-        return this.tasks.filter((task) => !task.completed);
+        filteredTasks = this.tasks.filter((task) => !task.completed);
+        break;
       case "completed":
-        return this.tasks.filter((task) => task.completed);
+        filteredTasks = this.tasks.filter((task) => task.completed);
+        break;
       case "important":
-        return this.tasks.filter((task) => task.important);
+        filteredTasks = this.tasks.filter((task) => task.important);
+        break;
       case "all":
       default:
-        return this.tasks;
+        filteredTasks = this.tasks;
     }
+
+    // Filter by search text if present
+    if (this.searchText) {
+      const searchTerm = this.searchText.toLowerCase();
+      filteredTasks = filteredTasks.filter((task) =>
+        task.title.toLowerCase().startsWith(searchTerm)
+      );
+    }
+
+    return filteredTasks;
   }
 
   handleFilterClick(filter) {
@@ -314,7 +336,11 @@ class TodoApp {
         this.tasks.push(localTask);
       }
 
+      // Clear input and reset search filter
       this.elements.taskInput.value = "";
+      this.searchText = "";
+
+      // Re-render tasks to show all
       this.renderTasks();
     } catch (error) {
       console.error("Error adding task:", error);
