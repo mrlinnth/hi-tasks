@@ -36,11 +36,11 @@ The app needs to be served over HTTPS (or localhost) for PWA features to work.
 
 **Option 1: Local development**
 ```bash
-# Using Python 3
-python -m http.server 8000
-
 # Using Node.js
 npx serve .
+
+# Using Python 3
+python -m http.server 8000
 ```
 
 **Option 2: Production deployment**
@@ -197,6 +197,13 @@ The app uses a calming sage green color palette:
 - **Primary Dark:** #6a8a69 (Dark sage)
 - **Background:** #ffffff (White)
 - **Text:** #1a1a1a (Near black)
+
+## Update Guide
+
+- Update the version in `sw.js` : `const version = "3.0";`
+- Update the css and js vesion in `index.html` : `href="styles.css?v=3.0"` , `src="app.js?v=3.0"`
+- Deploy to the server
+- After deployment, clear browser cache by Ctrl+Shift+R or Settings > Clear Cache & Data
 
 ## License
 
