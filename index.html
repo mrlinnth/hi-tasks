@@ -1,142 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Hi Tasks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#85a584">
-    <meta name="description" content="Minimal todo PWA">
-    <link rel="icon" type="image/ico" href="/favicon.ico">
-        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#85a584" />
+    <meta name="description" content="Minimal todo PWA" />
+    <link rel="icon" type="image/ico" href="/favicon.ico" />
+
     <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="/icons/192.png">
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/192.png" />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div id="app">
-        <!-- Header -->
-        <header class="header">
-            <h1 class="header-title">My Day</h1>
-            <div class="header-actions">
-                <div class="sync-status" id="syncStatus">
-                    <span class="sync-indicator"></span>
-                    <span class="sync-text">Online</span>
-                </div>
-                <button id="settingsBtn" class="btn-settings" aria-label="Settings">⚙</button>
-            </div>
-        </header>
-
-        <!-- Add Task Form -->
-        <div class="add-task-container">
-            <form id="addTaskForm" class="add-task-form">
-                <input
-                    type="text"
-                    id="taskInput"
-                    class="task-input"
-                    placeholder="Add a task"
-                    autocomplete="off"
-                    required
-                >
-                <button type="submit" class="btn-add" aria-label="Add task">+</button>
-            </form>
+      <!-- Header -->
+      <header class="header">
+        <h1 class="header-title"><span>Hi</span> Tasks</h1>
+        <div class="header-actions">
+          <div class="sync-status" id="syncStatus">
+            <span class="sync-indicator"></span>
+            <span class="sync-text">Online</span>
+          </div>
+          <button id="settingsBtn" class="btn-settings" aria-label="Settings">
+            ⚙
+          </button>
         </div>
+      </header>
 
-        <!-- Filter Buttons -->
-        <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="active">Active</button>
-            <button class="filter-btn" data-filter="completed">Completed</button>
-            <button class="filter-btn" data-filter="important">Important</button>
+      <!-- Add Task Form -->
+      <div class="add-task-container">
+        <form id="addTaskForm" class="add-task-form">
+          <input
+            type="text"
+            id="taskInput"
+            class="task-input"
+            placeholder="Add a task"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" class="btn-add" aria-label="Add task">+</button>
+        </form>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">
+          All (<span class="filter-count">0</span>)
+        </button>
+        <button class="filter-btn" data-filter="important">
+          Important (<span class="filter-count">0</span>)
+        </button>
+        <button class="filter-btn" data-filter="active">
+          Active (<span class="filter-count">0</span>)
+        </button>
+        <button class="filter-btn" data-filter="completed">
+          Completed (<span class="filter-count">0</span>)
+        </button>
+      </div>
+
+      <!-- Task List -->
+      <div class="task-list-container">
+        <div id="taskList" class="task-list"></div>
+        <div id="emptyState" class="empty-state">
+          <p>No tasks yet. Add one above!</p>
         </div>
+      </div>
 
-        <!-- Task List -->
-        <div class="task-list-container">
-            <div id="taskList" class="task-list"></div>
-            <div id="emptyState" class="empty-state">
-                <p>No tasks yet. Add one above!</p>
-            </div>
+      <!-- Task Detail Sidebar -->
+      <div id="taskDetail" class="task-detail">
+        <div class="task-detail-header">
+          <button id="closeDetail" class="btn-close" aria-label="Close">
+            ×
+          </button>
         </div>
-
-        <!-- Task Detail Sidebar -->
-        <div id="taskDetail" class="task-detail">
-            <div class="task-detail-header">
-                <button id="closeDetail" class="btn-close" aria-label="Close">×</button>
-            </div>
-            <div class="task-detail-content">
-                <div class="task-detail-actions">
-                    <button id="toggleImportant" class="btn-icon" aria-label="Toggle important">
-                        <span class="star">☆</span>
-                    </button>
-                    <button id="deleteTask" class="btn-icon btn-delete" aria-label="Delete task">
-                        <span>🗑</span>
-                    </button>
-                </div>
-                <div class="task-detail-title">
-                    <input type="checkbox" id="detailComplete" class="task-checkbox">
-                    <input 
-                        type="text" 
-                        id="detailTitle" 
-                        class="detail-title-input"
-                        placeholder="Task title"
-                    >
-                </div>
-                <div class="task-detail-field">
-                    <label for="detailDueDate" class="field-label">Due Date</label>
-                    <input 
-                        type="date" 
-                        id="detailDueDate" 
-                        class="field-input"
-                    >
-                </div>
-                <div class="task-detail-field">
-                    <label for="detailDescription" class="field-label">Description</label>
-                    <textarea 
-                        id="detailDescription" 
-                        class="field-textarea"
-                        placeholder="Add notes"
-                        rows="6"
-                    ></textarea>
-                </div>
-            </div>
+        <div class="task-detail-content">
+          <div class="task-detail-actions">
+            <button
+              id="toggleImportant"
+              class="btn-icon"
+              aria-label="Toggle important"
+            >
+              <span class="star">☆</span>
+            </button>
+            <button
+              id="deleteTask"
+              class="btn-icon btn-delete"
+              aria-label="Delete task"
+            >
+              <span>🗑</span>
+            </button>
+          </div>
+          <div class="task-detail-title">
+            <input type="checkbox" id="detailComplete" class="task-checkbox" />
+            <input
+              type="text"
+              id="detailTitle"
+              class="detail-title-input"
+              placeholder="Task title"
+            />
+          </div>
+          <div class="task-detail-field">
+            <label for="detailDueDate" class="field-label">Due Date</label>
+            <input type="date" id="detailDueDate" class="field-input" />
+          </div>
+          <div class="task-detail-field">
+            <label for="detailDescription" class="field-label"
+              >Description</label
+            >
+            <textarea
+              id="detailDescription"
+              class="field-textarea"
+              placeholder="Add notes"
+              rows="6"
+            ></textarea>
+          </div>
         </div>
+      </div>
 
-        <!-- Settings Panel -->
-        <div id="settingsPanel" class="settings-panel">
-            <div class="settings-header">
-                <h2 class="settings-title">Settings</h2>
-                <button id="closeSettings" class="btn-close" aria-label="Close">×</button>
-            </div>
-            <div class="settings-content">
-                <div class="settings-section">
-                    <label for="apiTokenInput" class="settings-label">
-                        Cockpit API Token
-                        <span class="settings-hint">Required for syncing tasks</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="apiTokenInput"
-                        class="settings-input"
-                        placeholder="Enter your API token"
-                    >
-                    <button id="saveToken" class="btn-save">Save Token</button>
-                    <div id="tokenStatus" class="token-status"></div>
-                </div>
-                <div class="settings-section">
-                    <label class="settings-label">
-                        Clear All Data
-                        <span class="settings-hint">Remove all tasks, cache, and settings</span>
-                    </label>
-                    <button id="clearAllData" class="btn-clear">Clear Cache & Data</button>
-                </div>
-            </div>
+      <!-- Settings Panel -->
+      <div id="settingsPanel" class="settings-panel">
+        <div class="settings-header">
+          <h2 class="settings-title">Settings</h2>
+          <button id="closeSettings" class="btn-close" aria-label="Close">
+            ×
+          </button>
         </div>
+        <div class="settings-content">
+          <div class="settings-section">
+            <label for="apiTokenInput" class="settings-label">
+              Cockpit API Token
+              <span class="settings-hint">Required for syncing tasks</span>
+            </label>
+            <input
+              type="text"
+              id="apiTokenInput"
+              class="settings-input"
+              placeholder="Enter your API token"
+            />
+            <button id="saveToken" class="btn-save">Save Token</button>
+            <div id="tokenStatus" class="token-status"></div>
+          </div>
+          <div class="settings-section">
+            <label class="settings-label">
+              Clear All Data
+              <span class="settings-hint"
+                >Remove all tasks, cache, and settings</span
+              >
+            </label>
+            <button id="clearAllData" class="btn-clear">
+              Clear Cache & Data
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <!-- Backdrop for mobile sidebar -->
-        <div id="backdrop" class="backdrop"></div>
+      <!-- Backdrop for mobile sidebar -->
+      <div id="backdrop" class="backdrop"></div>
     </div>
 
     <script type="module" src="app.js"></script>
-</body>
+  </body>
 </html>

@@ -153,6 +153,9 @@ class TodoApp {
     // Filter tasks based on current filter
     const filteredTasks = this.getFilteredTasks();
 
+    // Update filter counts
+    this.updateFilterCounts();
+
     if (filteredTasks.length === 0) {
       container.innerHTML = "";
       emptyState.classList.remove("hidden");
@@ -219,6 +222,34 @@ class TodoApp {
     });
 
     this.renderTasks();
+  }
+
+  updateFilterCounts() {
+    const allCount = this.tasks.length;
+    const importantCount = this.tasks.filter((task) => task.important).length;
+    const activeCount = this.tasks.filter((task) => !task.completed).length;
+    const completedCount = this.tasks.filter((task) => task.completed).length;
+
+    this.elements.filterBtns.forEach((btn) => {
+      const filter = btn.dataset.filter;
+      const countSpan = btn.querySelector(".filter-count");
+      if (!countSpan) return;
+
+      switch (filter) {
+        case "all":
+          countSpan.textContent = allCount;
+          break;
+        case "important":
+          countSpan.textContent = importantCount;
+          break;
+        case "active":
+          countSpan.textContent = activeCount;
+          break;
+        case "completed":
+          countSpan.textContent = completedCount;
+          break;
+      }
+    });
   }
 
   createTaskHTML(task) {
@@ -603,7 +634,9 @@ class TodoApp {
       window.location.reload(true);
     } catch (error) {
       console.error("Error clearing data:", error);
-      alert("Failed to clear all data. Please try again or clear manually through browser settings.");
+      alert(
+        "Failed to clear all data. Please try again or clear manually through browser settings."
+      );
     }
   }
 }
