@@ -8,7 +8,7 @@ class TodoApp {
     this.tasks = [];
     this.currentTask = null;
     this.isOnline = navigator.onLine;
-    this.currentFilter = "all";
+    this.currentFilter = "priority";
     this.searchText = "";
     this.elements = {};
   }
