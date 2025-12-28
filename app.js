@@ -212,8 +212,25 @@ class TodoApp {
       case "completed":
         filteredTasks = this.tasks.filter((task) => task.completed);
         break;
-      case "important":
-        filteredTasks = this.tasks.filter((task) => task.important);
+      case "priority":
+        // Priority: active tasks that are due today OR important
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        filteredTasks = this.tasks.filter((task) => {
+          if (task.completed) return false;
+
+          // Check if due date is today
+          const dueToday = task.dueDate
+            ? (() => {
+                const taskDate = new Date(task.dueDate);
+                taskDate.setHours(0, 0, 0, 0);
+                return taskDate.getTime() === today.getTime();
+              })()
+            : false;
+
+          // Return if due today OR important
+          return dueToday || task.important;
+        });
         break;
       case "all":
       default:
@@ -248,9 +265,27 @@ class TodoApp {
 
   updateFilterCounts() {
     const allCount = this.tasks.length;
-    const importantCount = this.tasks.filter((task) => task.important).length;
     const activeCount = this.tasks.filter((task) => !task.completed).length;
     const completedCount = this.tasks.filter((task) => task.completed).length;
+
+    // Priority count: active tasks that are due today OR important
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const priorityCount = this.tasks.filter((task) => {
+      if (task.completed) return false;
+
+      // Check if due date is today
+      const dueToday = task.dueDate
+        ? (() => {
+            const taskDate = new Date(task.dueDate);
+            taskDate.setHours(0, 0, 0, 0);
+            return taskDate.getTime() === today.getTime();
+          })()
+        : false;
+
+      // Return if due today OR important
+      return dueToday || task.important;
+    }).length;
 
     this.elements.filterBtns.forEach((btn) => {
       const filter = btn.dataset.filter;
@@ -261,8 +296,8 @@ class TodoApp {
         case "all":
           countSpan.textContent = allCount;
           break;
-        case "important":
-          countSpan.textContent = importantCount;
+        case "priority":
+          countSpan.textContent = priorityCount;
           break;
         case "active":
           countSpan.textContent = activeCount;
