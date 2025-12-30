@@ -213,9 +213,10 @@ class TodoApp {
         filteredTasks = this.tasks.filter((task) => task.completed);
         break;
       case "priority":
-        // Priority: active tasks that are due today OR important
+        // Priority: active tasks that are due today OR important OR overdue
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+        const now = new Date();
         filteredTasks = this.tasks.filter((task) => {
           if (task.completed) return false;
 
@@ -228,8 +229,11 @@ class TodoApp {
               })()
             : false;
 
-          // Return if due today OR important
-          return dueToday || task.important;
+          // Check if overdue
+          const isOverdue = task.dueDate ? new Date(task.dueDate) < now : false;
+
+          // Return if due today OR important OR overdue
+          return dueToday || task.important || isOverdue;
         });
         break;
       case "all":
@@ -268,9 +272,10 @@ class TodoApp {
     const activeCount = this.tasks.filter((task) => !task.completed).length;
     const completedCount = this.tasks.filter((task) => task.completed).length;
 
-    // Priority count: active tasks that are due today OR important
+    // Priority count: active tasks that are due today OR important OR overdue
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const now = new Date();
     const priorityCount = this.tasks.filter((task) => {
       if (task.completed) return false;
 
@@ -283,8 +288,11 @@ class TodoApp {
           })()
         : false;
 
-      // Return if due today OR important
-      return dueToday || task.important;
+      // Check if overdue
+      const isOverdue = task.dueDate ? new Date(task.dueDate) < now : false;
+
+      // Return if due today OR important OR overdue
+      return dueToday || task.important || isOverdue;
     }).length;
 
     this.elements.filterBtns.forEach((btn) => {
