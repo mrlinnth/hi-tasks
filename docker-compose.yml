@@ -1,0 +1,11 @@
+services:
+  hi-tasks:
+    image: nginx:alpine
+    container_name: hi-tasks-app
+    ports:
+      - "8080:80"
+    volumes:
+      # This is the key line: it mounts your current directory (where the files are)
+      # to the default Nginx web server directory inside the container.
+      - ./:/usr/share/nginx/html
+    restart: unless-stopped
